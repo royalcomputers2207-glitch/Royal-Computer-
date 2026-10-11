@@ -1,4 +1,329 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243b">
+  <meta name="description" content="Royal Computer Sales & Service, Bakal, Katni MP. Laptop, desktop repair, new and used computers and accessories.">
+  <title>Royal Computer Sales & Service | Bakal</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #10243b;
+      --blue: #1c4265;
+      --gold: #d5ad62;
+      --white: #ffffff;
+      --light: #f4f7fb;
+      --text: #263447;
+      --muted: #667589;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, "Noto Sans Devanagari", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+    }
+    a { text-decoration: none; }
+    .topbar {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e6eaf0;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--navy);
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      font-weight: bold;
+      border: 2px solid var(--gold);
+    }
+    .brand h1 { font-size: 19px; line-height: 1.3; }
+    .brand p { color: var(--muted); font-size: 12px; }
+    nav { display: flex; flex-wrap: wrap; gap: 18px; }
+    nav a { color: var(--navy); font-size: 14px; font-weight: 600; }
+    nav a:hover { color: #a77a2e; }
+
+    .hero {
+      background: linear-gradient(125deg, #10243b, #214c70);
+      color: white;
+      padding: 65px 6%;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-block;
+      color: var(--gold);
+      border: 1px solid rgba(213,173,98,.6);
+      border-radius: 30px;
+      padding: 5px 15px;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    .hero h2 {
+      font-size: clamp(29px, 5vw, 46px);
+      line-height: 1.3;
+      margin-bottom: 17px;
+      color: #fff;
+    }
+    .hero h2 span { color: var(--gold); }
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 26px;
+      color: #e1e9f1;
+      font-size: 16px;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 21px;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+    .btn-gold { background: var(--gold); color: #14283b; }
+    .btn-outline { border: 1px solid #fff; color: #fff; }
+    .btn-blue { background: var(--navy); color: #fff; }
+    .section { padding: 55px 6%; }
+    .section-light { background: var(--light); }
+    .section-head { text-align: center; margin-bottom: 30px; }
+    .section-head h2 { color: var(--navy); font-size: 29px; margin-bottom: 8px; }
+    .section-head p { color: var(--muted); font-size: 15px; }
+    .gold-line {
+      width: 55px; height: 3px; background: var(--gold);
+      margin: 12px auto 0; border-radius: 4px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e4eaf1;
+      border-radius: 12px;
+      padding: 25px 21px;
+      box-shadow: 0 5px 18px rgba(16,36,59,.045);
+    }
+    .card h3 { color: var(--navy); font-size: 19px; margin-bottom: 9px; }
+    .card p { color: var(--muted); font-size: 14px; }
+    .card-icon {
+      width: 48px; height: 48px; display: grid; place-items: center;
+      background: #edf3f9; border-radius: 10px;
+      font-size: 25px; margin-bottom: 17px;
+    }
+    .about {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+    }
+    .about p { color: var(--muted); margin: 12px 0; }
+    .contact-card {
+      max-width: 850px;
+      margin: auto;
+      background: #fff;
+      border: 1px solid #e1e8ef;
+      border-radius: 13px;
+      padding: 25px;
+    }
+    .contact-row {
+      padding: 14px 0;
+      border-bottom: 1px solid #edf0f4;
+      overflow-wrap: anywhere;
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row strong { display: block; color: var(--navy); margin-bottom: 4px; }
+    .contact-row span { color: var(--muted); font-size: 15px; }
+    .contact-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    footer {
+      background: #0b1b2d;
+      color: #d8e1eb;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 13px;
+    }
+    footer strong { color: var(--gold); }
+    .float-wa {
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
+      z-index: 5;
+      background: #168b55;
+      color: white;
+      border-radius: 30px;
+      padding: 11px 16px;
+      font-weight: bold;
+      box-shadow: 0 5px 18px #0003;
+    }
+    @media (max-width: 600px) {
+      header { padding: 13px 5%; }
+      nav { gap: 12px; }
+      nav a { font-size: 13px; }
+      .hero { padding: 48px 5%; }
+      .section { padding: 42px 5%; }
+      .section-head h2 { font-size: 25px; }
+      .contact-card { padding: 19px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    कंप्यूटर, लैपटॉप रिपेयरिंग और एक्सेसरीज़ — बाकल, जिला कटनी (म.प्र.)
+  </div>
+
+  <header>
+    <a class="brand" href="#home">
+      <div class="logo">R</div>
+      <div>
+        <h1>ROYAL COMPUTER</h1>
+        <p>SALES &amp; SERVICE</p>
+      </div>
+    </a>
+    <nav>
+      <a href="#home">होम</a>
+      <a href="#services">सर्विसेज</a>
+      <a href="#about">हमारे बारे में</a>
+      <a href="#contact">संपर्क</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <span class="eyebrow">आपका भरोसेमंद कंप्यूटर पार्टनर</span>
+      <h2>Technology का सही समाधान<br><span>Royal Computer के साथ</span></h2>
+      <p>
+        लैपटॉप और डेस्कटॉप रिपेयरिंग, नए एवं पुराने कंप्यूटर,
+        पार्ट्स और एक्सेसरीज़ — सब एक ही जगह।
+      </p>
+      <div class="actions">
+        <a class="btn btn-gold" href="tel:9977094785">📞 कॉल करें</a>
+        <a class="btn btn-outline"
+           href="https://wa.me/919589322509">WhatsApp पर संपर्क करें</a>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-head">
+        <h2>हमारी सर्विसेज</h2>
+        <p>आपकी जरूरत के लिए भरोसेमंद कंप्यूटर समाधान</p>
+        <div class="gold-line"></div>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">💻</div>
+          <h3>लैपटॉप रिपेयरिंग</h3>
+          <p>लैपटॉप की खराबी की जाँच, मरम्मत और तकनीकी सहायता।</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🖥️</div>
+          <h3>डेस्कटॉप सर्विस</h3>
+          <p>डेस्कटॉप कंप्यूटर की रिपेयरिंग और पार्ट्स संबंधी सहायता।</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🛒</div>
+          <h3>नए एवं पुराने कंप्यूटर</h3>
+          <p>नए और इस्तेमाल किए हुए लैपटॉप एवं कंप्यूटर की खरीद-बिक्री।</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">⌨️</div>
+          <h3>कंप्यूटर एक्सेसरीज़</h3>
+          <p>कंप्यूटर पार्ट्स और जरूरी एक्सेसरीज़ की जानकारी के लिए संपर्क करें।</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-light" id="about">
+      <div class="section-head">
+        <h2>Royal Computer के बारे में</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="about">
+        <p>
+          Royal Computer Sales &amp; Service, बाकल में कंप्यूटर और
+          लैपटॉप से जुड़ी सेवाएँ प्रदान करता है। हमारा उद्देश्य है
+          ग्राहकों को उनकी जरूरत के अनुसार सही तकनीकी समाधान देना।
+        </p>
+        <p>
+          रिपेयरिंग, नए-पुराने कंप्यूटर और पार्ट्स की उपलब्धता व कीमत
+          जानने के लिए हमसे सीधे संपर्क करें।
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-head">
+        <h2>संपर्क करें</h2>
+        <p>हमसे बात करें या WhatsApp पर पूछताछ भेजें</p>
+        <div class="gold-line"></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-row">
+          <strong>🏪 दुकान का नाम</strong>
+          <span>Royal Computer Sales &amp; Service</span>
+        </div>
+        <div class="contact-row">
+          <strong>📍 पता</strong>
+          <span>पुरानी राय मेडिकल के बाजू से, मुख्य बाजार के पास,
+          बाकल, जिला कटनी (म.प्र.) 483331</span>
+        </div>
+        <div class="contact-row">
+          <strong>📞 फोन</strong>
+          <span>9977094785</span>
+        </div>
+        <div class="contact-row">
+          <strong>💬 WhatsApp</strong>
+          <span>9589322509</span>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-blue" href="tel:9977094785">अभी कॉल करें</a>
+          <a class="btn btn-gold" href="https://wa.me/919589322509">WhatsApp करें</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>ROYAL COMPUTER SALES &amp; SERVICE</strong>
+    <p>बाकल, जिला कटनी, मध्य प्रदेश</p>
+    <p>© 2026 Royal Computer. All rights reserved.</p>
+  </footer>
+
+  <a class="float-wa" href="https://wa.me/919589322509">WhatsApp</a>
+</body>
+ </html>
+       
 
 <!DOCTYPE html>
 <html lang="hi">
