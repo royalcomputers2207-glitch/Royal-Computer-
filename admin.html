@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Computer Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f5f9;color:#172b43;font-family:Arial,sans-serif}
+header{background:#10243b;color:white;padding:20px 16px}
+header h2{margin:0 0 6px;color:#d5ad62}
+header p{margin:0;font-size:14px}
+main{max-width:700px;margin:18px auto;padding:0 12px}
+.card{background:white;border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 2px 10px #0000000c}
+h3{margin-top:0}
+label{display:block;margin:12px 0 6px;font-size:14px;font-weight:bold}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd4df;border-radius:7px;font-size:16px;background:white}
+button{border:0;border-radius:7px;padding:12px 15px;background:#10243b;color:white;font-size:15px;cursor:pointer}
+button.gold{background:#b58a39}
+button.red{background:#a52b35}
+button:disabled{opacity:.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{border:1px solid #e0e5ec;padding:12px;border-radius:10px;margin-top:12px}
+.item img{width:100%;height:160px;object-fit:contain;background:#f5f6f8;border-radius:7px}
+.item h4{margin:10px 0 5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.small{font-size:12px;color:#64748b;line-height:1.5}
+#panel{display:none}
+@media(max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h2>ROYAL COMPUTER</h2>
+<p>Sales & Service — Admin Panel</p>
+</header>
+
+<main>
+<section class="card" id="login">
+<h3>Admin Login</h3>
+<p class="small">यह शुरुआती इंटरफेस है। वास्तविक सुरक्षित लॉगिन बाद में सर्वर से जोड़ना होगा।</p>
+<label>Admin PIN</label>
+<input id="pin" type="password" inputmode="numeric" placeholder="PIN दर्ज करें">
+<button style="width:100%;margin-top:14px" onclick="loginAdmin()">Login</button>
+<p id="loginMsg" class="small"></p>
+</section>
+
+<section id="panel">
+<div class="card">
+<h3>नया प्रोडक्ट जोड़ें</h3>
+<form id="productForm">
+<input type="hidden" id="editId">
+<label>प्रोडक्ट का नाम *</label>
+<input id="name" required placeholder="जैसे HP Laptop">
+<div class="grid">
+<div>
+<label>कीमत (₹) *</label>
+<input id="price" type="number" min="0" required placeholder="25000">
+</div>
+<div>
+<label>कैटेगरी</label>
+<select id="category">
+<option>Laptop</option>
+<option>Desktop</option>
+<option>Computer Parts</option>
+<option>Accessories</option>
+<option>Used Computer</option>
+<option>Other</option>
+</select>
+</div>
+</div>
+<label>प्रोडक्ट की फोटो</label>
+<input id="photo" type="file" accept="image/*">
+<label>ऑफर / विवरण</label>
+<textarea id="description" rows="3" placeholder="प्रोडक्ट की जानकारी या ऑफर"></textarea>
+<button class="gold" type="submit" style="width:100%;margin-top:16px">प्रोडक्ट सेव करें</button>
+<button type="button" onclick="resetForm()" style="width:100%;margin-top:8px">फॉर्म साफ करें</button>
+</form>
+<p class="small">फिलहाल डेटा इसी ब्राउज़र में सेव होगा। यह अभी लाइव वेबसाइट या दूसरे मोबाइल पर सिंक नहीं होगा।</p>
+</div>
+
+<div class="card">
+<h3>रिपेयरिंग सेवाएँ</h3>
+<label>सेवा का विवरण</label>
+<textarea id="serviceText" rows="3" placeholder="Laptop repair, Desktop repair आदि"></textarea>
+<button onclick="saveServices()">इस ब्राउज़र में सेव करें</button>
+<p id="serviceMsg" class="small"></p>
+</div>
+
+<div class="card">
+<h3>प्रोडक्ट लिस्ट</h3>
+<input id="search" placeholder="प्रोडक्ट खोजें..." oninput="renderProducts()">
+<div id="products"></div>
+</div>
+</section>
+</main>
+
+<script>
+const KEY = "royal_computer_admin_products_demo";
+let products = [];
+let loggedIn = false;
+
+function loginAdmin(){
+  const pin = document.getElementById("pin").value;
+  if(pin !== "2580"){
+    document.getElementById("loginMsg").textContent =
+      "PIN सही नहीं है।";
+    return;
+  }
+  loggedIn = true;
+  document.getElementById("login").style.display = "none";
+  document.getElementById("panel").style.display = "block";
+  try {
+    products = JSON.parse(localStorage.getItem(KEY) || "[]");
+  } catch(e) { products = []; }
+  document.getElementById("serviceText").value =
+    localStorage.getItem("royal_demo_services") || "";
+  renderProducts();
+}
+
+function persist(){
+  localStorage.setItem(KEY, JSON.stringify(products));
+}
+
+function resetForm(){
+  document.getElementById("productForm").reset();
+  document.getElementById("editId").value = "";
+}
+
+document.getElementById("productForm").addEventListener("submit",
+async function(e){
+  e.preventDefault();
+  if(!loggedIn) return;
+
+  const id = document.getElementById("editId").value;
+  const existing = products.find(p => p.id === id);
+  let photo = existing ? existing.photo : "";
+
+  const file = document.getElementById("photo").files[0];
+  if(file){
+    if(file.size > 700000){
+      alert("डेमो में फोटो 700 KB से छोटी रखें।");
+      return;
+    }
+    photo = await new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const product = {
+    id: id || String(Date.now()),
+    name: document.getElementById("name").value.trim(),
+    price: document.getElementById("price").value,
+    category: document.getElementById("category").value,
+    description: document.getElementById("description").value.trim(),
+    photo
+  };
+
+  if(id){
+    products = products.map(p => p.id === id ? product : p);
+  } else {
+    products.unshift(product);
+  }
+
+  try {
+    persist();
+    renderProducts();
+    resetForm();
+    alert("इस ब्राउज़र में प्रोडक्ट सेव हो गया।");
+  } catch(err) {
+    alert("स्टोरेज भर गया है। छोटी फोटो इस्तेमाल करें।");
+  }
+});
+
+function renderProducts(){
+  const query = (document.getElementById("search").value || "").toLowerCase();
+  const list = products.filter(p =>
+    (p.name + " " + p.category).toLowerCase().includes(query)
+  );
+  document.getElementById("products").innerHTML = list.length
+    ? list.map(p => `
+      <div class="item">
+      ${p.photo ? `<img src="${p.photo}" alt="Product photo">` : ""}
+      <h4>${escapeHTML(p.name)}</h4>
+      <b>₹${escapeHTML(String(p.price))}</b>
+      <p class="small">${escapeHTML(p.category)} · ${escapeHTML(p.description || "")}</p>
+      <div class="actions">
+      <button onclick="editProduct('${p.id}')">Edit</button>
+      <button class="red" onclick="deleteProduct('${p.id}')">Delete</button>
+      </div></div>`).join("")
+    : '<p class="small">अभी कोई प्रोडक्ट नहीं है। ऊपर से पहला प्रोडक्ट जोड़ें।</p>';
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function editProduct(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  document.getElementById("editId").value = p.id;
+  document.getElementById("name").value = p.name;
+  document.getElementById("price").value = p.price;
+  document.getElementById("category").value = p.category;
+  document.getElementById("description").value = p.description;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteProduct(id){
+  if(!confirm("क्या यह प्रोडक्ट हटाना है?")) return;
+  products = products.filter(p => p.id !== id);
+  persist();
+  renderProducts();
+}
+
+function saveServices(){
+  localStorage.setItem("royal_demo_services",
+    document.getElementById("serviceText").value);
+  document.getElementById("serviceMsg").textContent =
+    "सेवाएँ इसी ब्राउज़र में सेव हो गईं।";
+}
+</script>
+</body>
+  </html>
+  
